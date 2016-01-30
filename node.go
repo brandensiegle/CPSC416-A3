@@ -11,9 +11,8 @@ import (
 	"net/rpc"
 	"os"
 	"strconv"
+
 )
-
-
 // args in get(args)
 type GetArgs struct {
 	Key string // key to look up
@@ -40,7 +39,7 @@ type ValReply struct {
 type KeyValService int
 
 func main(){
-
+	
 	// parse args
 	usage := fmt.Sprintf("Usage: %s ip:port id\n", os.Args[0])
 	if len(os.Args) != 3 {
@@ -69,7 +68,7 @@ func main(){
 
 
 
-	}
+}
 
 // If error is non-nil, print it out and halt.
 func checkError(err error) {
@@ -181,3 +180,4 @@ func readNodes(){
 func resetValues(){
 
 }
+
