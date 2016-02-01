@@ -100,7 +100,7 @@ func main(){
 			}
 			
 			change := didValChange(replyForGets.Val, j)
-			if (toPrint == 0 && change == 1){
+			if (toPrint == 0 && change == 1 && j%2 == 0){
 				toPrint = 1
 			}
 			j = j + 1
@@ -327,6 +327,10 @@ func checkingLeader() bool{
 	var i int = 0
 	for {
 		val := kvmap[strconv.Itoa(i)]
+		if (val == nil){
+			joinTheParty(id)
+			return false
+		}
 		if (val.value != "unavailable" && val.value != "Offline"){
 			if (nodeNo == 0) {
 				//learn which node is the leader
@@ -352,26 +356,33 @@ func checkingLeader() bool{
 
 func amILeader() bool {
 	var nodeNo int = 0
-		var i int = 0
-		for{
-			val := kvmap[strconv.Itoa(i)]
-			if (val == nil){
-				return false
-			}
-			if (val.value != "unavailable" && val.value != "Offline"){
-				if(nodeNo == 0){
-					if(val.value == id){
-						return true
-					} else {
-						return false
-					}
-				}
-				i = i+2
-				nodeNo++
-			} else {
-				i=i+2
-			}
+	var i int = 0
+	for{
+		val := kvmap[strconv.Itoa(i)]
+		if (val == nil){
+			return false
 		}
+		if (val.value != "unavailable" && val.value != "Offline"){
+			if(nodeNo == 0){
+				if(val.value == id){
+					return true
+				} else {
+					//update that I am active
+					var kvVal ValReply
+					putArgs := PutArgs{
+						Key: strconv.Itoa(myRegisteredKey+1),
+						Val: "Active"}
+					err := kvService.Call("KeyValService.Put", putArgs, &kvVal)
+					checkError(err)
+					return false
+				}
+			}
+			i = i+2
+			nodeNo++
+		} else {
+			i=i+2
+		}
+	}
 	println("LEADERCHECK ERROR")
 	return false
 }
