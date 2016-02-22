@@ -1,4 +1,4 @@
-Total before late penalty: [100/100]
+Total before late penalty: [18/100]
 ---------------------------------------------------
 
 Nodes join and election is carried out successfully (no unavailability).  [25/25]
@@ -13,22 +13,23 @@ Nodes join and election is carried out successfully (no unavailability).  [25/25
       - Wait for leader
       - Check advertisements
 
-Nodes fail and an election is carried out successfully (no unavailability).  [25/25]
+Nodes fail and an election is carried out successfully (no unavailability).  [15/25]
   - The leader node fails (election for new leader) [15/15]
      Repeat 5 consecutive times:
       - Clients join, leader is elected
       - Leader node is killed (fails)
       - Wait for leader
       - Check advertisements
-  - A non-leader node fails (possible election) [10/10]
+  - A non-leader node fails (possible election) [0/10]
      Repeat 5 consecutive times:
       - Clients join, a leader is elected
       - A non-leader node is killed (fails)
       - Wait for leader
       - Check advertisements
+COMMENTS: no change is detected when non-leader fails
 
-Restarts.  [10/10]
-  - A failed node is restarted/rejoins [5/5]
+Restarts.  [5/10]
+  - A failed node is restarted/rejoins [0/5]
      Repeat 2 consecutive times:
       - Clients join, a leader is elected
       - A non-leader node is killed (fails)
@@ -46,16 +47,26 @@ Restarts.  [10/10]
       - The node is restarted and rejoins
       - Wait for leader
       - Check advertisements
+COMMENTS: no change is detected when non-leader fails
 
-Unavailability.  [30/30]
-  - 10% unavailability during concurrent node joining [15/15]
-  - 10% unavailability when leader fails and election is triggered [10/10]
-  - One-off 100% unavailability [5/5]
+Unavailability.  [5/30]
+  - 10% unavailability during concurrent node joining [5/15]
+  - 10% unavailability when leader fails and election is triggered [0/10]
+  - One-off 100% unavailability [0/5]
+COMMENTS: nodes could not successfully join group after one-off. >4 nodes 
+with 10% unavailability could not print the whole group or keep a leader.
 
-Write-up.  [10/10]
+COMMENTS: You should be printing to stdout, not stderr. the built-in print()
+prints to stderr. I have taken 10 marks off for this, since I found the error
+in your code (it appeared one node was printing, not all of them, which would result
+in a much more severe penalty) and changed it.
+[ -10 marks ] 
+
+Write-up.  [8/10]
 
 
-Points lost because you did not run gofmt.  [ 0/20]
+Points lost because you did not run gofmt.  [20/20]
+COMMENTS: code appears like it was never gofmt'd
 ---------------------------------------------------
 
 All solutions must be formatted using gofmt; 20 point penalty for
